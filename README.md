@@ -1,2 +1,2 @@
 # data-structure
-Data structure.
+Data structure exercise.
