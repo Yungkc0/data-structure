@@ -40,6 +40,7 @@ int optoi(int op)
 		default:
 			opi = 0;
 	}
+
 	return opi;
 }
 
@@ -85,7 +86,7 @@ void push(struct stack *s, int c)
 	s->data[s->top++] = c;
 }
 
-int main()
+int main(void)
 {
 	char p;
 	int c, prec, a, b;
@@ -130,5 +131,6 @@ int main()
 	}
 
 	printf("result: %d\n", getop(&opnd));
+
 	return 0;
 }
