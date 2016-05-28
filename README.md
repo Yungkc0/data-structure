@@ -1,2 +1,2 @@
 # data-structure
-Data structure exercise.
+Data structure and algorithm practice.
