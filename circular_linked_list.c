@@ -78,7 +78,7 @@ void print_list(struct cirlist *l)
 	putchar('\n');
 }
 
-int main()
+int main(void)
 {
 	struct cirlist *h = NULL, *t;
 	int len, nu, d;

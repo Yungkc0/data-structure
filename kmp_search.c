@@ -48,7 +48,7 @@ char *kmp_search(const char *s, const char *w)
 	return (char *)s;
 }
 
-int main()
+int main(void)
 {
 	char s[] = "abdefghijk";
 	printf("%s\n", kmp_search(s, "def"));

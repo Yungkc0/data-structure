@@ -36,7 +36,7 @@ int size_cycque(struct cyc_que *cq)
 		cq->rear + MAX - cq->front;
 }
 
-int main()
+int main(void)
 {
 	int select, c, d;
 
