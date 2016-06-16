@@ -119,12 +119,12 @@ char *strrpl(char *s, const char *t, const char *v)
 {
 	size_t len;
 	char *p;
+	int i;
 
 	len = strlen(t);
 	if (!len)
 		return s;
-	int i;
-	for ( i = 3;i > 0 && (p = strstr(s, t)) != NULL;--i) {
+	for (i = 3; i > 0 && (p = strstr(s, t)) != NULL; --i) {
 		strdel(s, p - s, len);
 		strins(s, p - s, v);
 	}
