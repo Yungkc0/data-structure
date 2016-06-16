@@ -66,19 +66,21 @@ struct tree *create_tree(char *s, int deep)
 	return t;
 }
 
-struct tree *threading(struct tree *pre, struct tree *t)
+struct tree *threading(struct tree *t)
 {
-	struct tree *p;
+	struct tree *pre;
 
 	if (t == NULL)
-		return pre;
-	pre = threading(pre, t->lchild);
-	if (t->ltag == 0)
-		t->lchild = pre;
-	if (pre->rtag == 0)
-		pre->rchild = t;
-	pre = t;
-	return threading(pre, t->rchild);
+		return NULL;
+	pre = threading(t->lchild);
+	if (pre == NULL)
+		return t;
+	else
+		if (t->ltag == 0)
+			t->lchild = pre;
+		if (pre->rtag == 0)
+			pre->rchild = t;
+	return threading(t->rchild);
 }
 
 struct tree *getnext(struct tree *t)
@@ -97,8 +99,6 @@ struct tree *getnext(struct tree *t)
 
 void pr_thrtree(struct tree *t)
 {
-	struct tree *tmp = t;
-
 	while (t->ltag != 0)
 		t = t->lchild;
 	while (t->rchild != NULL) {
@@ -127,7 +127,7 @@ int main()
 	printf("print tree:\n");
 	pr_tree(t);
 	putchar('\n');
-	threading(t, t);
+	threading(t);
 	printf("threading tree...\n");
 	printf("print threaded tree:\n");
 	pr_thrtree(t);
