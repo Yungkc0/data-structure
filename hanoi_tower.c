@@ -13,7 +13,7 @@ void pr_stack(struct stack *s)
 	int i;
 
 	for (i = 0; i < s->top; ++i)
-		printf("%2d", s->disk[i]);
+		printf("%3d", s->disk[i]);
 	putchar('\n');
 }
 
@@ -30,8 +30,6 @@ int pop(struct stack *s)
 void move(struct stack *from, struct stack *to)
 {
 	/* move a disk on the top of 'from' to 'to' */
-	int i;
-
 	push(to, pop(from));
 	++count;
 
@@ -53,8 +51,6 @@ void init_hanoi(int n, struct stack *x)
 void hanoi(int n, struct stack *x, struct stack *y, struct stack *z)
 {
 	/* move n disks form x to z, y can be used as an auxiliary rod */
-	int i;
-
 	if (n == 1) {
 		move(x, z);
 	} else {
