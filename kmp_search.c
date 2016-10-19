@@ -30,6 +30,7 @@ char *kmp_search(const char *s, const char *w)
 	int m, i, t[l2];
 
 	kmp_table(w, t);
+    m = i = 0;
 	while (m + i < l1) {
 		if (w[i] == s[m + i]) {
 			if (i == l2 - 1)
