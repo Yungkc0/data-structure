@@ -18,4 +18,11 @@
             a[i] = rand() % max;\
     } while (0)
 
+#define CREATE_ORDER_ARRAY(a, n)\
+    do {\
+        int i;\
+        for (i = 0; i < n; ++i)\
+            a[i] = i + 1;\
+    } while (0)
+
 #endif
