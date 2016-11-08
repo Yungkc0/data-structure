@@ -38,8 +38,8 @@ avltree find(data_t d, avltree t)
         return find(d, t->left);
     if (d > t->data)
         return find(d, t->right);
-
-    return NULL;
+    else
+        return t;
 }
 
 avltree findmin(avltree t)

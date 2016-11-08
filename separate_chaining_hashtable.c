@@ -31,9 +31,9 @@ hashtable init_table(int tablesize)
 
     h = (hashtable) malloc(sizeof(struct hashtbl)
             + tablesize * sizeof(list));
-    h->tablesize = tablesize;
     if (h == NULL)
         return NULL;
+    h->tablesize = tablesize;
 
     return h;
 }
