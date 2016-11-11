@@ -13,8 +13,7 @@
 #define CREATE_ARRAY(a, n, max)\
     do {\
         srand(time(NULL));\
-        int i = n - 1;\
-        for (; i >= 0; --i)\
+        for (int i = n - 1; i >= 0; --i)\
             a[i] = rand() % max;\
     } while (0)
 
@@ -24,5 +23,19 @@
         for (i = 0; i < n; ++i)\
             a[i] = i + 1;\
     } while (0)
+
+#define PRINT_ARRAY(a, n)\
+    do {\
+        for (int i = 0; i < n; ++i)\
+            printf("%3d", a[i]);\
+        putchar('\n');\
+    } while (0)
+
+#define SWAP(a, b)\
+    do {\
+        typeof(a) t = b;\
+        b = a;\
+        a = t;\
+    } while (0);
 
 #endif
