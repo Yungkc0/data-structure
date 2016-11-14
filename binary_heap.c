@@ -1,6 +1,6 @@
 #include "all.h"
 
-#define MAX          100
+#define MAX          10
 #define MinPQSize    0
 #define MinData      0
 #define ElementType  int
@@ -17,17 +17,11 @@ struct HeapStruct {
 PriorityQueue Initialize(int MaxElements)
 {
     PriorityQueue H;
- 
-    if (MaxElements < MinPQSize)
-        FatalError("Priority queue size is too small");
+
     H = malloc(sizeof(struct HeapStruct));
-    if (H == NULL)
-        FatalError("malloc error: Out of memory!");
-    H->Elements = malloc((MaxElements + 1) * sizeof(ElementType));
-    if (H->Elements == NULL)
-        FatalError("malloc error: Out of memory!");
-    H->Capacity = MaxElements;
+    H->Elements = malloc(sizeof(ElementType) * (MaxElements + 1));
     H->Size = 0;
+    H->Capacity = MaxElements;
     H->Elements[0] = MinData;
 
     return H;
@@ -48,34 +42,58 @@ void Insert(ElementType X, PriorityQueue H)
     int i;
 
     if (IsFull(H)) {
-        Error("Priority queue is full");
+        Error("Heap is Full!!");
         return;
     }
-    for (i = ++H->Size; H->Elements[i/2] > X; i /= 2)
-        H->Elements[i] = H->Elements[i/2];
+    for (i = ++H->Size; H->Elements[i / 2] > X; i /= 2)
+        H->Elements[i] = H->Elements[i / 2];
     H->Elements[i] = X;
+}
+
+static void PercolateDown(PriorityQueue H, int index)
+{
+    ElementType Child;
+
+    for (int i = index; i * 2 <= H->Size; i = Child) {
+        Child = i * 2;
+        if (Child < H->Size && H->Elements[Child] > H->Elements[Child + 1])
+            ++Child;
+        if (H->Elements[i] > H->Elements[Child])
+            SWAP(H->Elements[i], H->Elements[Child]);
+        else
+            break;
+    }
+}
+
+/* O(N) */
+void BuildHeap(PriorityQueue H, int Arr[], int N)
+{
+    for (int i = 1; i <= N; ++i)
+        H->Elements[++H->Size] = Arr[i - 1];
+    for (int i = N / 2; i > 0; --i)
+        PercolateDown(H, i);
 }
 
 ElementType DeleteMin(PriorityQueue H)
 {
-    int i, Child;
     ElementType MinElement, LastElement;
+    int Child, i;
 
     if (IsEmpty(H)) {
-        Error("Priority queue is empty");
-        return H->Elements[0];
+        Error("Heap is Empty!!");
+        return -1;
     }
-    MinElement = H->Elements[1];
+    MinElement  = H->Elements[1];
     LastElement = H->Elements[H->Size--];
-
-    for (i = 1; i*2 <= H->Size; i = Child) {
-        Child = i*2;
-        if (Child != H->Size && H->Elements[Child + 1] < H->Elements[Child])
-            Child++;
-        if (LastElement > H->Elements[Child])
-            H->Elements[i] = H->Elements[Child];
-        else
+    for (i = 1; i * 2 < H->Size; i = Child) {
+        Child = i * 2;
+        /* Find smaller child. */
+        if (H->Elements[Child + 1] < H->Elements[Child] && Child != H->Size)
+            ++Child;
+        if (H->Elements[Child] >= LastElement)
             break;
+        else
+            H->Elements[i] = H->Elements[Child];
     }
     H->Elements[i] = LastElement;
     return MinElement;
@@ -83,12 +101,8 @@ ElementType DeleteMin(PriorityQueue H)
 
 void Display(PriorityQueue H)
 {
-    int i, j, size;
-
-    size = log2(H->Size);
-    for (i = 0; i <= size; ++i)
-        for (j = 0; j < pow(2, i); ++j)
-            printf("%3d", H->Elements[j]);
+    for (int i = 1; i < H->Size + 1; ++i)
+        printf("%3d", H->Elements[i]);
     putchar('\n');
 }
 
@@ -99,11 +113,16 @@ int main()
 
     CREATE_ARRAY(a, MAX, 100);
     PriorityQueue H = Initialize(MAX);
+    PriorityQueue Q = Initialize(MAX);
+    BuildHeap(Q, a, MAX);
     for (i = 0; i < MAX; ++i)
         Insert(a[i], H);
     Display(H);
+    Display(Q);
+#if 0
     DeleteMin(H);
     Display(H);
+#endif
 
     return 0;
 }
