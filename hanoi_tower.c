@@ -6,6 +6,7 @@ struct stack {
 	int disk[MAX];
 	int top;
 } x, y, z;
+
 int count = 0;
 
 void pr_stack(struct stack *s)
@@ -29,16 +30,16 @@ int pop(struct stack *s)
 
 void move(struct stack *from, struct stack *to)
 {
-	/* move a disk on the top of 'from' to 'to' */
+	/* move the disk on the top of 'from' to 'to' */
 	push(to, pop(from));
 	++count;
 
 	printf("-------------------------------\n");
-	printf("rod1: ");
+	printf("rod1:");
 	pr_stack(&x);
-	printf("rod2: ");
+	printf("rod2:");
 	pr_stack(&y);
-	printf("rod3: ");
+	printf("rod3:");
 	pr_stack(&z);
 }
 
@@ -48,15 +49,15 @@ void init_hanoi(int n, struct stack *x)
 		push(x, n);
 }
 
-void hanoi(int n, struct stack *x, struct stack *y, struct stack *z)
+void hanoi(int n, struct stack *from, struct stack *mid, struct stack *to)
 {
-	/* move n disks form x to z, y can be used as an auxiliary rod */
+	/* move n disks form x to z, mid can be used as an auxiliary rod */
 	if (n == 1) {
-		move(x, z);
+		move(from, to);
 	} else {
-		hanoi(n - 1, x, z, y);
-		move(x, z);
-		hanoi(n - 1, y, x, z);
+		hanoi(n - 1, from, to, mid);
+		move(from, to);
+		hanoi(n - 1, mid, from, to);
 	}
 }
 
@@ -68,7 +69,7 @@ int main(void)
 	scanf("%d", &n);
 	init_hanoi(n, &x);
 	hanoi(n, &x, &y, &z);
-	printf("steps: %d\n", count);
+	printf("\nAll steps: %d\n", count);
 
 	return 0;
 }
