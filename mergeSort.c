@@ -15,14 +15,14 @@ void merge(int a[], int tmp[], int lPos, int rPos, int rEnd)
         tmp[cur++] = a[lPos++];
     while (rPos <= rEnd)
         tmp[cur++] = a[rPos++];
-    for (int i = 0; i < len; ++i, -- rEnd)
+    for (int i = 0; i < len; ++i, --rEnd)
         a[rEnd] = tmp[rEnd];
 }
 
 void mSort(int a[], int tmp[], int left, int right)
 {
-    int center = (left + right) / 2;
     if (left < right) {
+        int center = (left + right) / 2;
         mSort(a, tmp, left, center);
         mSort(a, tmp, center + 1, right);
         merge(a, tmp, left, center + 1, right);
