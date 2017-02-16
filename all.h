@@ -18,7 +18,6 @@
 
 #define CREATE_ARRAY(a, n, max)\
     do {\
-        srand(time(NULL));\
         for (int i = (n) - 1; i >= 0; --i)\
             (a)[i] = rand() % (max);\
     } while (0)
