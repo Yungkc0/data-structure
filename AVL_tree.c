@@ -1,7 +1,5 @@
 #include "all.h"
 
-#define N 1000000
-
 typedef struct tree_node* avltree;
 typedef int data_t;
 
@@ -170,40 +168,18 @@ avltree insert(data_t d, avltree t)
     return t;
 }
 
-void print_tree(avltree t)
+void print_tree(avltree t, int layer)
 {
-    int i;
-    static int level_space = 0;
-
     if (t == NULL) {
+        for (int i = 0; i < layer; ++i)
+            printf("    ");
         printf("NULL\n");
-        level_space -= 1;
     } else {
+        for (int i = 0; i < layer; ++i)
+            printf("    ");
         printf("%d\n", t->data);
-        if (t->left || t->right) {
-            /* print left subtree */
-            for (i = 0; i < 4 * level_space; ++i)
-                if (i % 4 == 0)
-                    printf("│");
-                else 
-                    printf(" ");
-            printf("├── ");
-            level_space += 1;
-            print_tree(t->left);
-
-            /* print right subtree */
-            for (i = 0; i < 4 * level_space; ++i)
-                if (i % 4 == 0)
-                    printf("│");
-                else 
-                    printf(" ");
-            printf("└── ");
-            level_space += 1;
-            print_tree(t->right);
-            level_space -= 1;
-        } else {
-            level_space -= 1;
-        }
+        print_tree(t->left, layer + 1);
+        print_tree(t->right, layer + 1);
     }
 }
 
@@ -220,6 +196,7 @@ avltree create_from_array(data_t datas[], int n)
 
 int main()
 {
+    const int N = 30;
     int datas[N], i;
     avltree t;
 
@@ -228,12 +205,10 @@ int main()
     for (i = 0; i < N; ++i)
         datas[i] = rand() % N;
     t = create_from_array(datas, N);
-    printf("Tree:\n");
-    print_tree(t);
+    print_tree(t, 0);
 
     puts("destroying tree...");
     t = destroy(t);
-    printf("Tree = ");
-    print_tree(t);
+    print_tree(t, 0);
     return 0;
 }
